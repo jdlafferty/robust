@@ -1,0 +1,91 @@
+% !TEX root = ./robust.tex
+
+\section{Main Results}
+\label{sec:main}
+
+Consider a regression model $y_i=x_i^T\beta^*+z_i$ for $i\in[n]$. We assume that $z_i\sim (1-\epsilon)P_i+\epsilon Q_i$ independently for $i\in[n]$. The noise distribution $P_i$ will be assumed to have some good properties, but we do not impose any assumption on $Q_i$. For each $i\in[n]$, there is an $\epsilon$ probability that the data is contaminated so that the value of $z_i$ can be arbitrary. Moreover, we also assume that the random variables $z_1,\cdots,z_n$ are independent of the random vectors $x_1,\cdots,x_n$.
+
+Our goal is to recover the regression coefficient vector $\beta^*$ that is possibly sparse. We assume that $\|\beta^*\|_0\leq s$ for some $s\in[p]$. To overcome the challenge of arbitrary contamination, we
+consider the estimator
+$$\wh{\beta}=\argmin_{\beta\in\mathbb{R}^p}\left[\frac{1}{n}\|y-X\beta\|_1+\lambda\|\beta\|_1\right].$$
+To analyze $\wh{\beta}$, we impose the following conditions on the noise distributions $P_i$'s and the distribution of the design matrix.
+
+\begin{condn}
+There exists some $\sigma>0$, such that
+\begin{eqnarray*}
+P_i\left(z_i \geq t\right) &\leq& \frac{1}{2 + t/\sigma}, \\
+P_i\left(z_i \leq -t\right) &\leq& \frac{1}{2-t/\sigma},
+\end{eqnarray*}
+for any $t>0$ and any $i\in[n]$.
+\end{condn}
+
+\begin{conda}
+There exists some $\overline{\kappa}>0$, such that for any fixed (not random) $c_1,\cdots,c_n\in[-1,1]$,
+$$\mathbb{E}\exp\left(t\left\|\sum_{i=1}^nc_ix_i\right\|_{\infty}\right)\leq 2pe^{\frac{t^2n\overline{\kappa}^2}{2}},$$
+for any $t>0$.
+\end{conda}
+
+\begin{condb}
+There exists some $\underline{\kappa}>0$ and positive semi-definite matrices $\Sigma_1,\cdots,\Sigma_n$ such that the following conditions are satisfied:
+\begin{eqnarray}
+\label{eq:B1} \min_{i\in[n]}\inf_{v\neq 0}\mathbb{E}\frac{|x_i^Tv|^2}{v^T\Sigma_iv}\mathbb{I}\left\{\frac{|x_i^Tv|^2}{v^T\Sigma_iv}<1\right\} &\geq& 0.1, \\
+\label{eq:B2} \frac{1}{n}\sum_{i=1}^n\inf_{v\neq 0}\frac{\sqrt{v^T\Sigma_iv}}{\|v\|} &\geq& \underline{\kappa}.
+\end{eqnarray}
+\end{condb}
+
+While Condition N is for the distribution of the noise, Condition A and Condition B control the behavior of the design matrix. We give some comments on these conditions.
+
+Condition N assumes that the tail probability of $z_i/\sigma$ is of order $O(t^{-1})$ as $t$ tends to infinity. This allows heavy-tailed distributions such as Cauchy and t-distributions. Gaussian distribution certainly satisfies the condition as well. Moreover, we point out that Condition N does not even assume $P_i$ to be symmetric around zero. The condition will be satisfied as long as the population median of $P_i$ is zero. It is possible that $P_i(z_i\geq t)$ has a polynomial tail and $P_i(z_i\leq -t)$ has an exponential tail.
+
+Note that we may make the assumption that the median of $P_i$ is zero without loss
+of generality. For example, by transforming the data using pairwise
+distances as $y_i - y_j$, the noise distribution is transformed to have
+zero median.
+
+Condition A assumes that the random variable $\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}$ is of order $\overline{\kappa}\sqrt{\frac{\log n}{n}}$ and has a sub-Gaussian tail. The most straightforward example that satisfies Condition A is $x_i\sim N(0,\Sigma_i)$ independently for all $i\in[n]$ with $\Sigma_i\preceq \overline{\kappa}^2I_p$. Later we will introduce a relaxation of Condition A that allows heavy-tailed distributions.
+
+Condition B has two parts. The inequality (\ref{eq:B1}) makes sure the random variable $\frac{|x_i^Tv|^2}{v^T\Sigma_i v}$ is not degenerate at any direction $v$. Here, one can think of $\Sigma_i$ as the covariance matrix (up to some multiplicative factor) of $x_i$ so that $v^T\Sigma_iv$ is understood to be proportional to the variance of $x_i^Tv$. The inequality (\ref{eq:B2}) requires that the smallest eigenvalues of $\Sigma_i$'s are lower bounded by $\underline{\kappa}$, in an average sense. Again, the example $x_i\sim N(0,\Sigma_i)$ independently for all $i\in[n]$ with $\Sigma_i\succeq \underline{\kappa}^2I_p$ satisfies both (\ref{eq:B1}) and (\ref{eq:B2}). Unlike Condition A, Condition B does not impose any moment requirement, and it is also satisfied by multivariate t-distributions.
+
+Our proof of the main result reveals that Condition B can be further weakened by replacing $\inf_{v\neq 0}$ in both (\ref{eq:B1}) and (\ref{eq:B2}) with $\inf_{v\neq 0: \|v_{S^c}\|_1\leq 3\|v_S\|_1}$, where $S=\{j\in[p]:\beta_j^*\neq 0\}$ is the support of the regression vector. In other words, we only need the random vectors to be non-degenerate in a low-dimensional subspace characterized by a cone condition. This is related to the restricted eigenvalue condition in the literature of Lasso \citep{bickel2009simultaneous}. Careful readers may notice the difference that our restricted eigenvalue condition is imposed on the population covariance/scatter matrix instead of the design matrix itself in the literature. The former formulation is in general weaker.
+
+Last but not least, the ratio $\overline{\kappa}/\underline{\kappa}$ characterizes the range of the spectrum of the problem. It can be understood as the conditional number of robust sparse regression.
+
+\begin{thm}\label{thm:main}
+Suppose Condition N, Condition A and Condition B hold. Assume
+$$\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}\leq c,$$
+for some sufficiently small constant $c>0$. Set $\lambda=3\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$. We then have
+\begin{eqnarray*}
+\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\wh{\beta}-\beta^*)\| &\leq& C\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{\sigma^2s\log(2p)}{n}}, \\
+\|\wh{\beta}-\beta^*\| &\leq& C\frac{\overline{\kappa}/\underline{\kappa}^2}{1-\epsilon}\sqrt{\frac{\sigma^2s\log(2p)}{n}},
+\end{eqnarray*}
+for some constant $C>0$ with probability at least $1-2(2p)^{-1/8}$.
+\end{thm}
+
+Our theorem characterizes the error of $\wh{\beta}$ in terms of the two loss functions $\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|$ and $\|\wh{\beta}-\beta^*\|$. in the special case where $\Sigma_1=\cdots=\Sigma_n=\Sigma$, we have $\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|=\|\Sigma^{1/2}(\wh{\beta}-\beta^*)\|$ and it is just the prediction loss. We first note that the constants $c$ and $C$ in Theorem \ref{thm:main} are truly absolute constants that do not depend on any other quantity in the paper. Our proof shows that $c=\frac{1}{224}$ and $C=6880$, but we have made no attempt to optimize these values. The probability $1-2(2p)^{-1/8}$ can also be improved to $1-p^{-C'}$ for any $C'>0$ with a larger $C$.
+
+An interesting feature of $\wh{\beta}$ revealed by the analysis in the proof of Theorem \ref{thm:main} is that $\wh{\beta}$ is pivotal in the sense that the choice of $\lambda$ has nothing to do with the noise distributions $P_i$'s. It only depends on $\overline{\kappa}$, which, in general, can be estimated from $x_1,\cdots, x_n$ since there is no contamination on the design matrix. This is in contrast to algorithms such as Lasso \citep{bickel2009simultaneous} and iterative thresholding \citep{suggala2019adaptive} that require the knowledge of $\sigma^2$. In other words, the penalized $\ell_1$-minimization is self-normalized, a property also shared by scaled Lasso \citep{sun2012scaled} and square-root Lasso \citep{belloni2011square}. The pivotal property is especially important in the robust regression setting, because the parameter $\sigma^2$ cannot be estimated at all. It is not identifiable! To see why this is true, consider the case $\epsilon\geq \frac{1}{2}$. Then, take $P_i=N(0,\sigma^2)$ and $Q_i=\left(1-\frac{1}{2\epsilon}\right)N(0,\sigma^2)+\frac{1}{2\epsilon}N(0,\tau^2)$. This gives $z_i\sim (1-\epsilon)P_i+\epsilon Q_i = \frac{1}{2}N(0,\sigma^2)+\frac{1}{2}N(0,\tau^2)$,
+and thus one cannot tell the difference between the noise variance and the contamination variance. This simple example shows that one has to use a pivotal procedure for robust sparse regression.
+
+Our result also shows that the estimator $\wh{\beta}$ satisfies several other desirable properties. For the simplicity of discussion, let us suppose that the quantities $\overline{\kappa}$, $\underline{\kappa}$ and $\sigma$ are all constants. Then, both loss functions have error rate $\frac{1}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}$, whenever $\frac{1}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}$ is sufficiently small. Therefore, consistency of $\wh{\beta}$ is possible even when $\epsilon\rightarrow 1$, as long as the rate that $\epsilon$ tends to $1$ is slower than the rate that $\sqrt{\frac{s\log(2p)}{n}}$ tends to $0$. This implies that $\wh{\beta}$ is robust to both heavy-tailed distributions of the noise and severe arbitrary contamination. The penalized $\ell_1$-minimization requires much weaker assumptions on the noise variables $z_i$ compared with its $\ell_2$ counterpart, the Lasso estimator. We only need to assume a very small proportion of $z_i$'s satisfy Condition A, and for the rest of the $z_i$'s, we impose no assumption at all. In addition, when $\epsilon$ is bounded away from $1$, the error rate becomes $\sqrt{\frac{s\log(2p)}{n}}$, which is minimax optimal \citep{raskutti2011minimax}.
+
+
+As we have previously discussed, Condition A requires a sub-Gaussian tail for the random variable $\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}$, and thus rules out any design matrix generated by a heavy-tailed distribution. It turns out this is not necessary. The following condition only requires each $x_{ij}$ to have a finite $\eta$-moment.
+
+\begin{conda'}
+The random vectors $x_1,\cdots,x_n\in\mathbb{R}^p$ are independent. Moreover, there exist some $\overline{\kappa}>0$ and some constant $\eta>0$, such that
+$$\max_{(i,j)\in[n]\times [p]}\mathbb{E}\left(\frac{|x_{ij}|}{\overline{\kappa}}\right)^{\eta}\leq 1.$$
+\end{conda'}
+
+\begin{thm}\label{thm:heavy}
+Suppose Condition N, Condition A' and Condition B hold with some constant $\eta\geq 4$. Assume $n^{\frac{\eta-2}{2}}>p^{1.01}$ and
+$$\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}\leq c,$$
+for some sufficiently small constant $c>0$. Set $\lambda=6\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$. We then have
+We then have
+\begin{eqnarray*}
+\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\| &\leq& C\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{\sigma^2s\log(2p)}{n}}, \\
+\|\wh{\beta}-\beta^*\| &\leq& C\frac{\overline{\kappa}/\underline{\kappa}^2}{1-\epsilon}\sqrt{\frac{\sigma^2s\log(2p)}{n}},
+\end{eqnarray*}
+for some constant $C>0$ with probability at least $1-p^{-0.009}$.
+\end{thm}
+
+Theorem \ref{thm:heavy} shows that the existence of $4$th moment suffices to guarantee the same error rates for the two loss functions. The extra sample size condition $n^{\frac{\eta-2}{2}}>p^{1.01}$ naturally becomes weaker as $\eta$ gets larger. As a concrete example, consider i.i.d. random vectors $x_1,...,x_n\sim t_{\nu}(0,\Sigma)$, where $t_{\nu}(0,\Sigma)$ is a multivariate t-distribution with scatter matrix $\Sigma$ and degrees of freedom $\nu$. Its density function is proportional to $\left(1+\frac{1}{\nu}x^T\Sigma^{-1}x\right)^{-\frac{\nu+p}{2}}$. For any $v\in\mathbb{R}^p$, we have $v^Tx_i\sim t_{\nu}(0,v^T\Sigma v)$. Therefore, Condition A' and Condition B are satisfied with $\overline{\kappa}^2=\max_{j\in[n]}\Sigma_{jj}$ and $\underline{\kappa}^2=\lambda_{\min}(\Sigma)$, and thus the conclusions of Theorem \ref{thm:heavy} hold for any $\nu>4$.

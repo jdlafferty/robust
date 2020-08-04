@@ -1,0 +1,309 @@
+% !TEX root = ./robust.tex
+
+
+\section{Proofs}
+\label{sec:proofs}
+
+\subsection{Some Technical Lemmas}
+
+We first need a result that shows Condition A implies both high-probability and in-expectation bounds for $\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}$.
+
+\begin{lemma}\label{lem:random-part}
+Suppose Condition A holds. Then, for any fixed (not random) $c_1,\cdots,c_n\in[-1,1]$, we have
+\begin{equation}
+\mathbb{P}\left(\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}>t\right)\leq 2p\exp\left(-\frac{nt^2}{2\overline{\kappa}^2}\right), \label{eq:tail-inf}
+\end{equation}
+for any $t>0$. Moreover,
+\begin{equation}
+\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty} \leq \overline{\kappa}\sqrt{\frac{2\log(2p)}{n}}. \label{eq:exp-inf}
+\end{equation}
+\end{lemma}
+\begin{proof}
+For any $\rho\geq 0$, we have Chernoff's bound
+$$\mathbb{P}\left(\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}>t\right) \leq e^{-\rho t}\mathbb{E}\exp\left(\rho\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}\right) \leq 2p\exp\left(-\rho t+\frac{\overline{\kappa}^2\rho^2}{2n}\right),$$
+where we have used Condition A in the last inequality above. Optimizing over $\rho$, we obtain the bound (\ref{eq:tail-inf}) as desired. To get (\ref{eq:exp-inf}), we use Jensen's inequality and get
+$$\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty} \leq \frac{1}{\rho}\log\mathbb{E}\exp\left(\rho\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}\right) \leq \frac{1}{\rho}\log\left(2p\exp\left(\frac{\rho^2\overline{\kappa}^2}{2n}\right)\right).$$
+Take $\rho=\sqrt{\frac{2n\log(2p)}{\overline{\kappa}^2}}$, and we obtain (\ref{eq:exp-inf}), which completes the proof.
+\end{proof}
+
+
+The next two lemmas are results in \cite{wang2013l1}.
+
+\begin{lemma}\label{lem:link-to-loss}
+Suppose Condition N holds. Then, we have
+$$\mathbb{E}_{z\sim P_i}\left(|t+z|-|z|\right) \geq \frac{1}{16}|t|\left(\frac{|t|}{\sigma}\wedge 6\right),$$
+for any $t>0$ and any $i\in[n]$.
+\end{lemma}
+
+\begin{lemma}
+For any $v\in\mathbb{R}^n$, we have $\sum_{i=1}^n\left(|v_i|\wedge |v_i|^2\right)\geq \frac{\|v\|_1}{2}\wedge \|v\|^2$.
+\end{lemma}
+
+The following result is Theorem 4.12 of \cite{ledoux2013probability}.
+
+\begin{lemma}\label{lem:contraction}
+Let $F:\mathbb{R}_+\rightarrow\mathbb{R}_+$ be convex and increasing. Let further $\psi_i:\mathbb{R}\rightarrow\mathbb{R}$, $i\leq n$, be contractions such that $\psi(0)=0$. Then, for any bounded subset $T\subset\mathbb{R}^n$,
+$$\mathbb{E}F\left(\frac{1}{2}\sup_{t\in T}\left|\sum_{i=1}^n\delta_i\psi_i(t_i)\right|\right)\leq \mathbb{E}F\left(\sup_{t\in T}\left|\sum_{i=1}^n\delta_i t_i\right|\right),$$
+where $\delta_1,...,\delta_n$ are i.i.d. $\text{Unif}\{\pm 1\}$.
+\end{lemma}
+
+
+Finally, we need a result that establishes the conclusions of Lemma \ref{lem:random-part} under Condition A'.
+
+\begin{lemma}\label{lem:random-heavy}
+Suppose Condition A' is satisfied with some constant $\eta\geq 4$. Assume $n^{\frac{\eta-2}{2}}>p^{1.01}$. Then, for any fixed (not random) $c_1,\cdots,c_n\in[-1,1]$, we have
+$$\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty} \leq 4\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}.$$
+Moreover, for any fixed (not random) $c_1,\cdots,c_n\in[-1,1]$ and any $t>0$, we also have
+$$\left\|\frac{1}{n}\sum_{i=1}^nc_ix_i\right\|_{\infty}\leq 3\overline{\kappa}\sqrt{\frac{\log(2p)}{n}},$$
+and
+$$\mathbb{E}\left[\exp\left(t\left\|\sum_{i=1}^n\delta_ix_i\right\|_{\infty}\right)\Bigg|X\right]\leq 2p\exp\left(nt^2\overline{\kappa}^2\right),$$
+with probability at least $1-p^{-0.009}$, where $\delta_1,...,\delta_n$ are i.i.d. $\text{Unif}\{\pm 1\}$.
+\end{lemma}
+\begin{proof}
+We take $c_i=1$ for simplicity. The proof for general $\{c_i\}_{i\in[n]}$ follows the same argument. Define
+\begin{eqnarray*}
+\bar{x}_{ij} &=& x_{ij}\mathbb{I}\{|x_{ij}|\leq\tau\}-\mathbb{E}x_{ij}\mathbb{I}\{|x_{ij}|\leq\tau\}, \\
+\wt{x}_{ij} &=& x_{ij}\mathbb{I}\{|x_{ij}|>\tau\}-\mathbb{E}x_{ij}\mathbb{I}\{|x_{ij}|>\tau\}.
+\end{eqnarray*}
+Then, we have the decomposition $x_{ij}=\bar{x}_{ij}+\wt{x}_{ij}$. For any $t>0$,
+\begin{eqnarray*}
+&& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^nx_{ij}\right|>\overline{\kappa} t\right) \\
+&\leq& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|>\overline{\kappa} t/2\right) + \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{x}_{ij}\right|>\overline{\kappa} t/2\right).
+\end{eqnarray*}
+For the first term, we use Bernstein's inequality and union bound, and get
+\begin{equation}
+\mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|>\overline{\kappa} t/2\right)\leq 2p\exp\left(-\frac{n^2\overline{\kappa}^2t^2/4}{n\overline{\kappa}^2+n\overline{\kappa} t\tau/3}\right). \label{eq:ht-bern}
+\end{equation}
+Now we set $\tau=\overline{\kappa}\sqrt{\frac{n}{\log(2p)}}$ and $t=3\sqrt{\frac{\log(2p)}{n}}$. We can then conclude that
+\begin{equation}
+\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|\leq \frac{3}{2}\overline{\kappa}\sqrt{\frac{\log p}{n}}, \label{eq:ht-01}
+\end{equation}
+with probability at least $1-(2p)^{-1/8}$. To analyze the second term, we note that
+\begin{eqnarray}
+\nonumber |\mathbb{E}x_{ij}\mathbb{I}\{|x_{ij}|>\tau\}|/\overline{\kappa} &\leq& \left(\mathbb{E}\left|\frac{x_{ij}}{\overline{\kappa}}\right|^{\eta}\right)^{1/\eta} \mathbb{P}\left(|x_{ij}|>\tau\right)^{\frac{\eta-1}{\eta}} \\
+\nonumber &\leq&  \mathbb{P}\left(|x_{ij}|>\overline{\kappa}\sqrt{\frac{n}{\log(2p)}}\right)^{\frac{\eta-1}{\eta}} \\
+\label{eq:holder-moment} &\leq& \left(\frac{\log (2p)}{n}\right)^{\frac{\eta-1}{2}},
+\end{eqnarray}
+where the last inequality is by Condition A'.
+This implies $|\mathbb{E}x_{ij}\mathbb{I}\{|x_{ij}|>\tau\}|\leq \overline{\kappa}\left(\frac{\log (2p)}{n}\right)^{\frac{\eta-1}{2}}$.
+Recall that we have set $t=3\sqrt{\frac{\log(2p)}{n}}$. As long as $\eta>2$ and $\frac{\log(2p)}{n}$ is sufficiently small so that $\left(\frac{\log(2p)}{n}\right)^{\frac{\eta-2}{2}}<\frac{3}{2}$ holds, we have
+\begin{eqnarray*}
+&& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{x}_{ij}\right|>\overline{\kappa} t/2\right) \\
+&\leq& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^nx_{ij}\mathbb{I}\{|x_{ij}|>\tau\}\right|>\overline{\kappa} t/4\right) \\
+&\leq& \sum_{j=1}^p\sum_{i=1}^n\mathbb{P}(|x_{ij}|>\tau) \\
+&\leq& pn \left(\frac{\log (2p)}{n}\right)^{\frac{\eta}{2}}.
+\end{eqnarray*}
+Therefore, under the condition $n^{\frac{\eta-2}{2}}>p^{1.01}$, we also have
+\begin{equation}
+\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{x}_{ij}\right|\leq \frac{3}{2}\overline{\kappa}\sqrt{\frac{\log (2p)}{n}}, \label{eq:ht-02}
+\end{equation}
+with probability at least $1-p^{-0.009}$. We thus obtain the second conclusion by combining (\ref{eq:ht-01}) and (\ref{eq:ht-02}). For the first conclusion, we have
+$$\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n{x}_{ij}\right|/\overline{\kappa}\leq \mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|/\overline{\kappa}+\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{x}_{ij}\right|/\overline{\kappa},$$
+and we will bound the two terms on the right hand side of the above bound separately. The first term can be bounded by integrating up the tail bound (\ref{eq:ht-bern}) with $\tau=\overline{\kappa}\sqrt{\frac{n}{\log(2p)}}$. We have
+\begin{eqnarray*}
+\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|/\overline{\kappa} &=& \int_0^{\infty}\mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|>\overline{\kappa} t/2\right)dt \\
+&\leq& 3\sqrt{\frac{\log (2p)}{n}} + \int_{3\sqrt{\frac{\log (2p)}{n}}}^{\infty}2p\exp\left(-\frac{nt^2}{8}\right)dt + \int_{3\sqrt{\frac{\log (2p)}{n}}}^{\infty}2p\exp\left(-\frac{n\overline{\kappa} t}{3\tau}\right)dt \\
+&\leq& 4\sqrt{\frac{\log (2p)}{n}},
+\end{eqnarray*}
+and thus $\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{x}_{ij}\right|\leq 4\overline{\kappa}\sqrt{\frac{\log (2p)}{n}}$. For the second term, we have
+\begin{eqnarray*}
+\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{x}_{ij}\right|/\overline{\kappa} &\leq& \frac{2}{n}\sum_{j=1}^p\sum_{i=1}^n|\mathbb{E}x_{ij}\mathbb{I}\{|x_{ij}|>\tau\}|/\overline{\kappa} \\
+&\leq& 2p\left(\frac{\log (2p)}{n}\right)^{\frac{\eta-1}{2}} \\
+&\leq& \sqrt{\frac{\log (2p)}{n}},
+\end{eqnarray*}
+where the first inequality in the above display uses the same argument that leads to (\ref{eq:holder-moment}), and the second inequality holds under the condition $n^{\frac{\eta-2}{2}}>p^{1.01}$. Hence, we have $\mathbb{E}\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n{x}_{ij}\right|/\overline{\kappa}\leq 5\sqrt{\frac{\log (2p)}{n}}$ and thus the first conclusion is proved.
+
+For the last conclusion, we define $w_{ij}=x_{ij}^2$, and
+\begin{eqnarray*}
+\bar{w}_{ij} &=& w_{ij}\mathbb{I}\{|w_{ij}|\leq\tau\}-\mathbb{E}w_{ij}\mathbb{I}\{|w_{ij}|\leq\tau\}, \\
+\wt{w}_{ij} &=& w_{ij}\mathbb{I}\{|w_{ij}|>\tau\}-\mathbb{E}w_{ij}\mathbb{I}\{|w_{ij}|>\tau\}.
+\end{eqnarray*}
+Then $w_{ij}=\bar{w}_{ij}+\wt{w}_{ij}$. By Bernstein's inequality and union bound, we have
+$$\mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{w}_{ij}\right|>\overline{\kappa}^2 t/2\right)\leq 2p\exp\left(-\frac{n^2\overline{\kappa}^4t^2/2}{n\overline{\kappa}^4+n\overline{\kappa}^2 t\tau/6}\right).$$
+We choose $\tau=\frac{n\overline{\kappa}^2}{\log(2p)}$ and $t=1$. This implies $\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\bar{w}_{ij}\right|\leq \overline{\kappa}^2/2$ with probability at least $1-(2p)^{-5}$ as long as $\frac{\log(2p)}{n}<\frac{1}{6}$. To analyze the second term, we note that
+\begin{eqnarray*}
+|\mathbb{E}w_{ij}\mathbb{I}\{|w_{ij}|>\tau\}|/\overline{\kappa}^2 &\leq& \left(\mathbb{E}\left|\frac{w_{ij}}{\overline{\kappa}^2}\right|^{\eta/2}\right)^{2/\eta} \mathbb{P}\left(|w_{ij}|>\tau\right)^{\frac{\eta-2}{\eta}} \\
+&\leq&  \mathbb{P}\left(|w_{ij}|>\tau\right)^{\frac{\eta-2}{\eta}} \\
+&\leq& \left(\frac{\log (2p)}{n}\right)^{\frac{\eta-2}{2}}.
+\end{eqnarray*}
+Therefore, for $\frac{\log (2p)}{n}$ that is sufficiently small, we have
+\begin{eqnarray*}
+&& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{w}_{ij}\right|>\overline{\kappa}^2/2\right) \\
+&\leq& \mathbb{P}\left(\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^nw_{ij}\mathbb{I}\{|w_{ij}|>\tau\}\right|>\overline{\kappa}/4\right) \\
+&\leq& \sum_{j=1}^p\sum_{i=1}^n\mathbb{P}(|w_{ij}|>\tau) \\
+&\leq& pn \left(\frac{\log (2p)}{n}\right)^{\frac{\eta}{2}}.
+\end{eqnarray*}
+Under the condition $n^{\frac{\eta-2}{2}}>p^{1.01}$, we also have $\max_{j\in[p]}\left|\frac{1}{n}\sum_{i=1}^n\wt{w}_{ij}\right|\leq \overline{\kappa}^2/2$ with probability at least $1-p^{-0.009}$. We can conclude that
+\begin{equation}
+\max_{j\in[p]}\sum_{i=1}^nx_{ij}^2\leq \overline{\kappa}^2n,\label{eq:nice-x}
+\end{equation}
+with probability at least $1-p^{-0.009}$. Whenever (\ref{eq:nice-x}) holds, we have
+\begin{eqnarray*}
+\mathbb{E}\left[\exp\left(t\left\|\sum_{i=1}^n\delta_ix_i\right\|_{\infty}\right)\Bigg|X\right] &\leq& \sum_{j=1}^p\mathbb{E}\left[\exp\left(t\left|\sum_{i=1}^n\delta_ix_{ij}\right|\right)\Bigg|X\right] \\
+&\leq& \sum_{j=1}^p\mathbb{E}\left[\exp\left(t\sum_{i=1}^n\delta_ix_{ij}\right)\Bigg|X\right] + \sum_{j=1}^p\mathbb{E}\left[\exp\left(-t\sum_{i=1}^n\delta_ix_{ij}\right)\Bigg|X\right] \\
+&=& 2\sum_{j=1}^p\prod_{i=1}^n\mathbb{E}\left(e^{t\delta_ix_{ij}}\Big|X\right) \\
+&=& 2\sum_{j=1}^p\prod_{i=1}^n\left(\frac{1}{2}e^{tx_{ij}}+\frac{1}{2}e^{-tx_{ij}}\right) \\
+&\leq& 2\sum_{j=1}^p\exp\left(t^2\sum_{i=1}^nx_{ij}^2\right) \\
+&\leq& 2p\exp\left(nt^2\overline{\kappa}^2\right).
+\end{eqnarray*}
+This completes the proof.
+\end{proof}
+
+
+\subsection{Proofs of Theorem \ref{thm:main} and Theorem \ref{thm:heavy}}
+
+\begin{proof}[Proof of Theorem \ref{thm:main}]
+Define $L_n(\beta)=\frac{1}{n}\sum_{i=1}^n\left(|x_i^T(\beta^*-\beta)+z_i|-|z_i|\right)$, and $L(\beta)=\mathbb{E}L_n(\beta)$, where the expectation is over the joint distribution of design and noise. It is easy to see that $L_n(\beta^*)=0$. We introduce the notation
+$$\ell_{\Sigma}(\beta,\beta^*)=\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|.$$
+Now suppose $\ell_{\Sigma}(\wh{\beta},\beta^*)\geq \underline{\kappa}t$, we have
+$$\inf_{\ell_{\Sigma}(\beta,\beta^*)\geq\underline{\kappa}t}(L_n(\beta)+\lambda\|\beta\|_1)\leq L_n(\beta^*)+\lambda\|\beta^*\|_1=\lambda\|\beta^*\|_1.$$
+By the convexity of $L_n(\beta)+\lambda\|\beta\|_1$, we can replace $\ell_{\Sigma}(\beta,\beta^*)\geq\underline{\kappa}t$ with $\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t$. Then,
+\begin{equation}
+\inf_{\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1)\leq 0. \label{eq:basic}
+\end{equation}
+
+\paragraph{Cone Condition.}
+Since $L_n(\beta)$ is a convex function, we have
+$$L_n(\beta)\geq L_n(\beta^*)+\nabla L_n(\beta^*)^T(\beta-\beta^*).$$
+Therefore,
+\begin{eqnarray*}
+&& L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1 \\
+&\geq& \frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i^T(\beta^*-\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1 \\
+&\geq& -\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}\|\beta-\beta^*\|_1+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1  \\
+&\geq& \left(\lambda-\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}\right)\|(\beta-\beta^*)_{S^c}\|_1 - \left(\lambda+\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}\right)\|(\beta-\beta^*)_{S}\|_1.
+\end{eqnarray*}
+As long as $\lambda\geq 2\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}$, we have
+$$L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1 \geq \frac{\lambda}{2}\|(\beta-\beta^*)_{S^c}\|_1-\frac{3\lambda}{2}\|(\beta-\beta^*)_{S}\|_1,$$
+where $S=\{j\in[p]:\beta_j^*\neq 0\}$.
+For any $\beta$ such that $L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1\leq 0$ holds, we must have $0\geq \frac{\lambda}{2}\|(\beta-\beta^*)_{S^c}\|_1-\frac{3\lambda}{2}\|(\beta-\beta^*)_{S}\|_1,$
+which implies the cone condition
+\begin{equation}
+\|(\beta-\beta^*)_{S^c}\|_1\leq 3\|(\beta-\beta^*)_{S}\|_1.\label{eq:cone}
+\end{equation}
+Define $\mathcal{C}$ to be the collection of $\beta$ such that (\ref{eq:cone}) is satisfied. We have shown that $L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1\leq 0$ implies $\beta\in\mathcal{C}$. Therefore, we can add the additional constraint $\mathcal{C}$ to the inequality (\ref{eq:basic}), and we thus obtain
+\begin{equation}
+\inf_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1)\leq 0, \label{eq:basic-cone}
+\end{equation}
+whenever $\lambda\geq 2\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}$ holds.
+By Lemma \ref{lem:random-part}, we have $\lambda\geq 2\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}$ with probability at least $1-(2p)^{-1/8}$ with the choice $\lambda=3\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$. This implies (\ref{eq:basic-cone}) holds with probability at least $1-(2p)^{-1/8}$.
+
+\paragraph{Stochastic Error.}
+From (\ref{eq:basic-cone}), we can derive
+\begin{eqnarray*}
+&& \inf_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1) \\
+&\leq& \inf_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L_n(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1) + \sup_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)-L_n(\beta)) \\
+&\leq& \sup_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)-L_n(\beta)).
+\end{eqnarray*}
+We thus need to give a bound for $\sup_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)-L_n(\beta))$. For any $\beta\in\mathcal{C}$ that satisfies $\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t$, we have
+\begin{eqnarray}
+\nonumber \|\beta-\beta^*\|_1 &=& \|(\beta-\beta^*)_{S^c}\|_1 + \|(\beta-\beta^*)_{S}\|_1 \\
+\nonumber &\leq& 4\|(\beta-\beta^*)_{S}\|_1 \\
+\nonumber &\leq& 4\sqrt{s}\|\beta-\beta^*\| \\
+\label{eq:bound-for-l1} &\leq& \frac{4\sqrt{s}}{\underline{\kappa}}\ell_{\Sigma}(\beta,\beta^*) \leq 4\sqrt{s}t.
+\end{eqnarray}
+Therefore,
+$$\sup_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)-L_n(\beta))\leq \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta)).$$
+We use $\mathbb{E}^X$ for the conditional expectation operator $\mathbb{E}(\cdot|X)$. Then, a standard symmetrization argument (Lemma 2.3.1 of \cite{wellner2013weak}) leads to
+\begin{eqnarray*}
+&& \mathbb{E}^X\exp\left(\rho \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\right) \\
+&\leq& \mathbb{E}^X\exp\left(2\rho \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}\left|\frac{1}{n}\sum_{i=1}^n\delta_i\left(|x_i^T(\beta^*-\beta)+z_i|-|z_i|\right)\right|\right),
+\end{eqnarray*}
+for any $\rho>0$, where $\delta_1,\cdots,\delta_n$ are i.i.d. $\text{Unif}\{\pm 1\}$. Use Lemma \ref{lem:contraction}, and the above quantity can be further bounded by
+\begin{eqnarray*}
+&& \mathbb{E}^X\exp\left(4\rho\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}\left|\frac{1}{n}\sum_{i=1}^n\delta_ix_i^T(\beta-\beta^*)\right|\right) \\
+&\leq& \mathbb{E}^X\exp\left(16\rho\sqrt{s}t \left\|\frac{1}{n}\sum_{i=1}^n\delta_ix_i\right\|_{\infty}\right).
+\end{eqnarray*}
+We have thus obtained the bound
+\begin{equation}
+\mathbb{E}^X\exp\left(\rho \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\right)\leq  \mathbb{E}^X\exp\left(16\rho\sqrt{s}t \left\|\frac{1}{n}\sum_{i=1}^n\delta_ix_i\right\|_{\infty}\right). \label{eq:cond-mgf}
+\end{equation}
+Taking expectation on both sides, we then have
+$$\mathbb{E}\exp\left(\rho \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\right)\leq \mathbb{E}\exp\left(16\rho\sqrt{s}t \left\|\frac{1}{n}\sum_{i=1}^n\delta_ix_i\right\|_{\infty}\right).$$
+By Condition A, the right hand side of the above inequality can be bounded by $2p\exp\left(128\rho^2s t^2\overline{\kappa}^2/n\right)$. By Chernoff bound, we have
+$$\mathbb{P}\left(\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta)) > x\right)\leq 2p\exp\left(128\rho^2s t^2\overline{\kappa}^2/n-\rho x\right).$$
+Optimize over $\rho$, and we get
+$$\mathbb{P}\left(\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta)) > x\right)\leq 2p\exp\left(-\frac{nx^2}{512st^2\overline{\kappa}^2}\right),$$
+which implies
+$$\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\leq 24t\overline{\kappa}\sqrt{\frac{s\log (2p)}{n}},$$
+with probability at least $1-(2p)^{-1/8}$.
+To summarize, we have established that
+\begin{equation}
+\inf_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1) \leq 24t\overline{\kappa}\sqrt{\frac{s\log (2p)}{n}}, \label{eq:pf-main-l}
+\end{equation}
+with probability at least $1-2(2p)^{-1/8}$.
+
+\paragraph{Identifiability.} For any $\beta\in\mathcal{C}$ that satisfies $\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t$, we need to find a lower bound for $L(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1$.
+We first give a lower bound for $\lambda\|\beta\|_1-\lambda\|\beta^*\|_1$, and we have
+\begin{equation}
+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1\geq -\lambda\|\beta-\beta^*\|_1 \geq -4\sqrt{s}\lambda t, \label{eq:pen-easy}
+\end{equation}
+where the last inequality has been established in (\ref{eq:bound-for-l1}).
+Next, we analyze $L(\beta)$.
+Define $f_i(x)=\mathbb{E}_{z_i\sim Q_i}(|x+z_i|-|z_i|)$ and $Q_i(x)=Q_i(z_i\leq x)$. It is easy to check that $f_i(0)=0$ and $f_i'(x)=1-2Q_i(x)$. Then, by convexity, we have
+\begin{eqnarray*}
+\frac{1}{n}\sum_{i=1}^nf_i(x_i^T(\beta^*-\beta)) &\geq& \frac{1}{n}\sum_{i=1}^nf_i(0) + \frac{1}{n}\sum_{i=1}^nf_i'(0)x_i^T(\beta^*-\beta) \\
+&=& \frac{1}{n}\sum_{i=1}^n(1-2Q_i(0))x_i^T(\beta^*-\beta) \\
+&\geq& -4\sqrt{s}t\left\|\frac{1}{n}\sum_{i=1}^n(1-2Q_i(0))x_i\right\|_{\infty}.
+\end{eqnarray*}
+Lemma \ref{lem:random-part} implies that $\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^n(1-2Q_i(0))x_i\right\|_{\infty}\leq \overline{\kappa}\sqrt{\frac{2\log(2p)}{n}}$. Therefore,
+$$\frac{1}{n}\sum_{i=1}^n\mathbb{E}f_i(x_i^T(\beta^*-\beta))\geq -4t\overline{\kappa}\sqrt{\frac{2s\log(2p)}{n}}.$$
+Let us also define $g_i(x)=\mathbb{E}_{z_i\sim P_i}(|x+z_i|-|z_i|)$. By Lemma \ref{lem:link-to-loss}, we have $g_i(x)\geq \frac{1}{16}|x|\left(\frac{|x|}{\sigma}\wedge 6\right)$. Thus,
+$$\frac{1}{n}\sum_{i=1}^n\mathbb{E}g_i(x_i^T(\beta^*-\beta))\geq \frac{1}{16n}\sum_{i=1}^n \mathbb{E}\left(\frac{|x_i^T(\beta^*-\beta)|^2}{\sigma}\wedge (6|x_i^T(\beta^*-\beta)|)\right).$$
+For each $i\in[n]$, we have
+\begin{align}
+\nonumber & \mathbb{E}\left(\frac{|x_i^T(\beta^*-\beta)|^2}{\sigma}\wedge (6|x_i^T(\beta^*-\beta)|)\right) \\
+\nonumber &= \mathbb{E}\frac{|x_i^T(\beta^*-\beta)|^2}{\sigma}\mathbb{I}\{|x_i^T(\beta^*-\beta)|< 6\sigma\} + 6\mathbb{E}|x_i^T(\beta^*-\beta)|\mathbb{I}\{|x_i^T(\beta^*-\beta)|\geq 6\sigma\} \\
+\nonumber &\geq \mathbb{E}\frac{|x_i^T(\beta^*-\beta)|^2}{\sigma}\mathbb{I}\left\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|< 6\sigma, \frac{|x_i^T(\beta^*-\beta)|^2}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}< 1\right\} \\
+\nonumber & + 6\mathbb{E}|x_i^T(\beta^*-\beta)|\mathbb{I}\left\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|\geq 6\sigma, \frac{|x_i^T(\beta^*-\beta)|^2}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}\geq 1\right\}  \\
+\nonumber &= \frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}{\sigma}\mathbb{I}\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|< 6\sigma\}\mathbb{E}\frac{|x_i^T(\beta^*-\beta)|^2}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}\mathbb{I}\left\{\frac{|x_i^T(\beta^*-\beta)|^2}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}< 1\right\} \\
+\nonumber & + 6\|\Sigma_i^{1/2}(\beta-\beta^*)\|\mathbb{I}\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|\geq 6\sigma\}\mathbb{E}\frac{|x_i^T(\beta^*-\beta)|}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|}\mathbb{I}\left\{\frac{|x_i^T(\beta^*-\beta)|^2}{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}\geq 1\right\} \\
+\label{eq:use-B} &\geq \frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}{10\sigma}\mathbb{I}\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|< 6\sigma\} + 6\|\Sigma_i^{1/2}(\beta-\beta^*)\|\mathbb{I}\{\|\Sigma_i^{1/2}(\beta-\beta^*)\|\geq 6\sigma\} \\
+\nonumber &\geq \frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}{10\sigma}\wedge\left(6\|\Sigma_i^{1/2}(\beta-\beta^*)\|\right),
+\end{align}
+where the inequality (\ref{eq:use-B}) is by Condition B.
+Hence,
+\begin{eqnarray}
+\nonumber && \frac{1}{n}\sum_{i=1}^n\mathbb{E}g_i(x_i^T(\beta^*-\beta)) \\
+\nonumber &\geq& \frac{1}{16n}\sum_{i=1}^n\left(\frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}{10\sigma}\wedge\left(6\|\Sigma_i^{1/2}(\beta-\beta^*)\|\right)\right) \\
+\nonumber &=&  \frac{45\sigma}{2n}\sum_{i=1}^n\left(\frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2}{(60\sigma)^2}\wedge \frac{\|\Sigma_i^{1/2}(\beta-\beta^*)\|}{60\sigma}\right) \\
+\label{eq:use-wang} &\geq& \left(\frac{3}{16n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|\right) \wedge \left(\frac{1}{160n\sigma}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|^2\right) \\
+\nonumber &\geq& \left(\frac{3}{16n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|\right)\wedge \left(\frac{1}{160\sigma}\left[\frac{1}{n}\sum_{i=1}^n\|\Sigma_i^{1/2}(\beta-\beta^*)\|\right]^2\right) \\
+\nonumber &=& \frac{3\underline{\kappa}t}{16}\wedge\frac{\underline{\kappa}^2t^2}{160\sigma}.
+\end{eqnarray}
+The inequality (\ref{eq:use-wang}) is by Lemma \ref{eq:use-wang}.
+Combining the above bounds for $\frac{1}{n}\sum_{i=1}^n\mathbb{E}g_i(x_i^T(\beta^*-\beta))$ and $\frac{1}{n}\sum_{i=1}^n\mathbb{E}f_i(x_i^T(\beta^*-\beta))$, we obtain
+\begin{eqnarray*}
+L(\beta) &=& (1-\epsilon)\frac{1}{n}\sum_{i=1}^n\mathbb{E}g_i(x_i^T(\beta^*-\beta)) + \epsilon \frac{1}{n}\sum_{i=1}^n\mathbb{E}f_i(x_i^T(\beta^*-\beta)) \\
+&\geq& (1-\epsilon)\left(\frac{3\underline{\kappa}t}{16}\wedge\frac{\underline{\kappa}^2t^2}{160\sigma}\right) -4\epsilon t\overline{\kappa}\sqrt{\frac{2s\log(2p)}{n}}.
+\end{eqnarray*}
+Together with (\ref{eq:pen-easy}), we have established that
+\begin{eqnarray}
+\nonumber && \inf_{\beta\in\mathcal{C}:\ell_{\Sigma}(\beta,\beta^*)=\underline{\kappa}t}(L(\beta)+\lambda\|\beta\|_1-\lambda\|\beta^*\|_1) \\
+\label{eq:pf-main-u} &\geq& (1-\epsilon)\left(\frac{3\underline{\kappa}t}{16}\wedge\frac{\underline{\kappa}^2t^2}{160\sigma}\right) -4\epsilon t\overline{\kappa}\sqrt{\frac{2s\log(2p)}{n}} -4\sqrt{s}\lambda t.
+\end{eqnarray}
+
+\paragraph{Combine (\ref{eq:pf-main-l}) and (\ref{eq:pf-main-u}).} We shall combine (\ref{eq:pf-main-l}) and (\ref{eq:pf-main-u}), and then have the inequality
+$$(1-\epsilon)\left(\frac{3\underline{\kappa}t}{16}\wedge\frac{\underline{\kappa}^2t^2}{160\sigma}\right) -4\epsilon t\overline{\kappa}\sqrt{\frac{2s\log(2p)}{n}} -4\sqrt{s}\lambda t\leq 24t\overline{\kappa}\sqrt{\frac{s\log (2p)}{n}},$$
+with probability at least $1-2(2p)^{-1/8}$. With the choice $\lambda=3\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$, the above inequality can be rearranged into
+\begin{equation}
+\frac{3}{16}\wedge\frac{\underline{\kappa}t}{160\sigma}\leq 42\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}. \label{eq:make-contra}
+\end{equation}
+Under the condition $42\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}<\frac{3}{16}$, we can then choose $t$ that satisfies
+$$\frac{\underline{\kappa}t}{160\sigma}=43\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}.$$
+This makes the inequality (\ref{eq:make-contra}) impossible, and thus $\ell_{\Sigma}(\wh{\beta},\beta^*)\geq \underline{\kappa}t$ cannot hold. Hence, we have established that
+$$\ell_{\Sigma}(\wh{\beta},\beta^*)\leq 6880 \frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{\sigma^2s\log(2p)}{n}},$$
+with probability at least $1-2(2p)^{-1/8}$. Finally, by $\|\wh{\beta}-\beta^*\|\leq \frac{1}{\underline{\kappa}}\ell_{\Sigma}(\wh{\beta},\beta^*)$, we also obtain the desired bound for $\|\wh{\beta}-\beta^*\|$.
+\end{proof}
+
+
+\begin{proof}[Proof of Theorem \ref{thm:heavy}]
+The proof of Theorem \ref{thm:heavy} largely follows that of Theorem \ref{thm:main}, and we only list the differences of the two arguments. In establishing the cone condition, it is required to choose a $\lambda$ that satisfies  $\lambda\geq 2\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}$ with high probability. By Lemma \ref{lem:random-heavy}, $\left\|\frac{1}{n}\sum_{i=1}^n\sgn(z_i)x_i\right\|_{\infty}\leq 3\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$ with high probability, and thus the choice $\lambda=6\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$ satisfied the requirement. When analyzing the stochastic error, we need to derive a high-probability bound for $\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))$. Use $\mathbb{E}^X$ and $\mathbb{P}^X$ for the conditional expectation and probability operators $\mathbb{E}(\cdot|X)$ and $\mathbb{P}(\cdot|X)$. By (\ref{eq:cond-mgf}) and Lemma \ref{lem:random-heavy}, we have
+$$\mathbb{E}^X\exp\left(\rho \sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\right)\leq 2p\exp\left(\frac{256\overline{\kappa}^2\rho^2st^2}{n}\right),$$
+for any $\rho>0$ with high probability. By a standard Chernoff bound argument, we have
+$$\mathbb{P}^X\left(\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta)) > x\right)\leq 2p\exp\left(-\frac{nx^2}{1024st^2\overline{\kappa}^2}\right),$$
+with probability at least $1-p^{-0.009}$. Thus,
+$$\sup_{\|\beta-\beta^*\|_1\leq 4\sqrt{s}t}(L(\beta)-L_n(\beta))\leq 48t\overline{\kappa}\sqrt{\frac{s\log (2p)}{n}},$$
+with probability at least $1-(2p)^{-1/8}-p^{-0.009}$. Finally, in the identifiability analysis, we need to bound $\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^n(1-2Q_i(0))x_i\right\|_{\infty}$. Lemma \ref{lem:random-heavy} directly gives the bound
+$$\mathbb{E}\left\|\frac{1}{n}\sum_{i=1}^n(1-2Q_i(0))x_i\right\|_{\infty}\leq 4\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}.$$
+The rest of the arguments are the same as in the proof of Theorem \ref{thm:main}.
+\end{proof}
