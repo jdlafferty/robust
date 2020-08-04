@@ -5,11 +5,11 @@
 
 In this paper we study robust regression in the setting where the noise has outliers or contaminated values,
 and the model parameters are estimated by minimizing the residual sum of absolute values. We adopt the standard regression model $y_i=x_i^T\beta^*+z_i$ for $n$ data points $(x_i,y_i)$, but assume that the noise is distributed according to a mixture, with $z_i\sim (1-\epsilon)P_i+\epsilon Q_i$ independently. The default noise distribution $P_i$ is assumed to have ``nice'' properties, but the corrupting distribution
-$Q_i$ can be completely arbitrary. The parameter $\epsilon$ indicates the fraction of the observations $y_i$ that are corrupted. The quantities $\epsilon$, $P_i$ and $Q_i$ are unknown; only the points $(x_1, y_1), \ldots, (x_n, y_n)$ are observed.
+$Q_i$ is completely arbitrary. The parameter $\epsilon$ indicates the fraction of the observations $y_i$ that are corrupted. The quantities $\epsilon$, $P_i$ and $Q_i$ are unknown; only the points $(x_1, y_1), \ldots, (x_n, y_n)$ are observed.
 
 
 Figure 1 shows two examples that illustrate the robustness of median regression
-in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the noise values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by noting that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. The focus of this paper is to understand this behavior quantitatively, to determine conditions and scaling regimes under which median regression is provably effective, in both low and high dimensions.
+in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by noting that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. The focus of this paper is to understand this behavior quantitatively, to determine conditions and scaling regimes under which median regression is provably effective, in both low and high dimensions.
 
 \begin{figure*}[t]
   \begin{tabular}{cc}
@@ -34,7 +34,7 @@ function, and the dashed line is the fit using median regression.}
     \end{tabular}
   \end{center}
 \caption{Robust lasso for the linear model  $y=X\beta + z$ with design points $X_{ij}\sim N(0,1)$.
-Left: Dimension $p$ varying as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, with $\rho=1.2$; the sample size is fixed at $n=100$. Right: Dimension fixed at $p=10$ with $s=5$ relevant variables; the sample size $n$ is varied according to
+Left: Dimension $p$ varying as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, with $\rho=1.2$; the sample size is fixed at $n=100$, and $s=2$. Right: Dimension fixed at $p=10$ with $s=5$ relevant variables; the sample size $n$ is varied according to
 $n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The vertical axis shows the squared error $\|\hat \beta - \beta^*\|^2$ averaged over multiple trials.}
 \end{figure*}
 
@@ -55,9 +55,9 @@ estimator is pivotal with respect to the parameters of the noise, viewed as nuis
 In contrast, algorithms such as the lasso \citep{bickel2009simultaneous} and iterative thresholding \citep{suggala2019adaptive} require knowledge of the noise variance.
 The pivotal property is particularly important in the robust setting, where the
 noise variance is not identifiable; we discuss this point further in Section~\ref{sec:main}.
-In addition, we show how the robust lasso can be effective when the design variables $X_j$ and the noise distributions $P_i$ have heavy tails, which can be seen as additional robustness properties.
-In fact, this procedure is seen to be robust to arbitrary contamination, heavy-tailed noise, and heavy-tailed design distributions simultaneously. Algorithmically, we show how the linear program \eqref{robustlasso} can be reformulated as median regression with respect to a transformed design matrix.
+In addition, we show how the robust lasso can be effective when the design variables $X_j$ and the noise distributions $P_i$ have heavy tails.
+In fact, this procedure is robust to arbitrary contamination, heavy-tailed noise, and heavy-tailed design distributions simultaneously. Algorithmically, we show how the linear program \eqref{robustlasso} can be reformulated as median regression with respect to a transformed design matrix.
 
-In the following section we review the existing literature on the problem of robust regression for corrupted noise, which has seen significant attention in recent years. We also relate this problem to previous work that considers corrupted design and noise together. The main results of the paper are presented in Section~\ref{sec:main}, where we establish the scaling behavior of median regression under different assumptions. In particular, we separate the cases where the design variables are assumed to have sub-Gaussian and heavy tails. The detailed proofs of these results are collected in Section~\ref{sec:proofs}. Section~\ref{sec:experiments} presents a series of simulations that exhibit close correspondence with this theory. Finally, in Section~\ref{sec:discuss} we discuss these results and their implications for applications. We also mention directions for future research, including extensions to robust quantile regression.
+In the following section we review the existing literature on the problem of robust regression for corrupted noise, which has seen significant attention in recent years. We also relate this problem to previous work that considers corrupted design and noise together. The main results of the paper are presented in Section~\ref{sec:main}, where we establish the scaling behavior of median regression under different assumptions. We separate the cases where the design variables are assumed to have sub-Gaussian and heavy tails. The detailed proofs of these results are collected in Section~\ref{sec:proofs}. A series of simulations that exhibit close correspondence with this theory are presented in Section~\ref{sec:experiments}. Finally, we discuss these results and their implications for applications in Section~\ref{sec:discuss}. We also mention directions for future research, including extensions to robust quantile regression.
 
 % WLOG assumption on median zero
