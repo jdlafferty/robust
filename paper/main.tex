@@ -77,7 +77,7 @@ $$\max_{(i,j)\in[n]\times [p]}\mathbb{E}\left(\frac{|x_{ij}|}{\overline{\kappa}}
 \end{conda'}
 
 \begin{thm}\label{thm:heavy}
-Suppose Condition N, Condition A' and Condition B hold with some constant $\eta\geq 4$. Assume $n^{\frac{\eta-2}{2}}>p^{1.01}$ and
+Suppose Condition N, Condition A${}^\prime$ and Condition B hold with some constant $\eta\geq 4$. Assume $n^{\frac{\eta-2}{2}}>p^{1.01}$ and
 $$\frac{\overline{\kappa}/\underline{\kappa}}{1-\epsilon}\sqrt{\frac{s\log(2p)}{n}}\leq c,$$
 for some sufficiently small constant $c>0$. Set $\lambda=6\overline{\kappa}\sqrt{\frac{\log(2p)}{n}}$. We then have
 We then have
@@ -88,4 +88,4 @@ We then have
 for some constant $C>0$ with probability at least $1-p^{-0.009}$.
 \end{thm}
 
-Theorem \ref{thm:heavy} shows that the existence of $4$th moment suffices to guarantee the same error rates for the two loss functions. The extra sample size condition $n^{\frac{\eta-2}{2}}>p^{1.01}$ naturally becomes weaker as $\eta$ gets larger. As a concrete example, consider i.i.d. random vectors $x_1,...,x_n\sim t_{\nu}(0,\Sigma)$, where $t_{\nu}(0,\Sigma)$ is a multivariate t-distribution with scatter matrix $\Sigma$ and degrees of freedom $\nu$. Its density function is proportional to $\left(1+\frac{1}{\nu}x^T\Sigma^{-1}x\right)^{-\frac{\nu+p}{2}}$. For any $v\in\mathbb{R}^p$, we have $v^Tx_i\sim t_{\nu}(0,v^T\Sigma v)$. Therefore, Condition A' and Condition B are satisfied with $\overline{\kappa}^2=\max_{j\in[n]}\Sigma_{jj}$ and $\underline{\kappa}^2=\lambda_{\min}(\Sigma)$, and thus the conclusions of Theorem \ref{thm:heavy} hold for any $\nu>4$.
+Theorem \ref{thm:heavy} shows that the existence of $4$th moment suffices to guarantee the same error rates for the two loss functions. The extra sample size condition $n^{\frac{\eta-2}{2}}>p^{1.01}$ naturally becomes weaker as $\eta$ gets larger. As a concrete example, consider i.i.d. random vectors $x_1,...,x_n\sim t_{\nu}(0,\Sigma)$, where $t_{\nu}(0,\Sigma)$ is a multivariate t-distribution with scatter matrix $\Sigma$ and degrees of freedom $\nu$. Its density function is proportional to $\left(1+\frac{1}{\nu}x^T\Sigma^{-1}x\right)^{-\frac{\nu+p}{2}}$. For any $v\in\mathbb{R}^p$, we have $v^Tx_i\sim t_{\nu}(0,v^T\Sigma v)$. Therefore, Condition A${}^\prime$ and Condition B are satisfied with $\overline{\kappa}^2=\max_{j\in[n]}\Sigma_{jj}$ and $\underline{\kappa}^2=\lambda_{\min}(\Sigma)$, and thus the conclusions of Theorem \ref{thm:heavy} hold for any $\nu>4$.

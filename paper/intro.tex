@@ -9,7 +9,7 @@ $Q_i$ is completely arbitrary. The parameter $\epsilon$ indicates the fraction o
 
 
 Figure 1 shows two examples that illustrate the robustness of median regression
-in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by noting that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. The focus of this paper is to understand this behavior quantitatively, to determine conditions and scaling regimes under which median regression is provably effective, in both low and high dimensions.
+in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by observing that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. The focus of this paper is to understand this behavior quantitatively, to determine conditions and scaling regimes under which median regression is provably effective, in both low and high dimensions.
 
 \begin{figure*}[t]
   \begin{tabular}{cc}
@@ -52,7 +52,7 @@ Here $s = \|\beta^*\|_0$ is the number of nonzero coefficients in the true model
 
 In our analysis of the estimator \eqref{robustlasso}, it is seen that the optimal regularization parameter does not depend on the noise distributions $P_i$. In other words, the
 estimator is pivotal with respect to the parameters of the noise, viewed as nuisance parameters.
-In contrast, algorithms such as the lasso \citep{bickel2009simultaneous} and iterative thresholding \citep{suggala2019adaptive} require knowledge of the noise variance.
+In contrast, algorithms such as the lasso and iterative thresholding  require knowledge of the noise variance \citep{bickel2009simultaneous,suggala2019adaptive}.
 The pivotal property is particularly important in the robust setting, where the
 noise variance is not identifiable; we discuss this point further in Section~\ref{sec:main}.
 In addition, we show how the robust lasso can be effective when the design variables $X_j$ and the noise distributions $P_i$ have heavy tails.

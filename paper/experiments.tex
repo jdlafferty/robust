@@ -2,3 +2,26 @@
 
 \section{Experiments}
 \label{sec:experiments}
+
+In this section we discuss experimental results that illustrate and confirm the theoretical behavior of
+median regression with corrupted data. In particular, we examine the scaling behavior of the error
+with respect the level of corruption as the sample size, dimension, and correlation between predictor variables
+are varied.
+
+\subsection{Reduction of the robust lasso to median regression}
+
+We first observe how the robust lasso is equivalent to median regression for transformed data. The robust lasso is the  estimator
+\begin{align*}
+  \hat\beta = \argmin_\beta \left\{ \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1\right\}.
+\end{align*}
+The estimator can be rewritten as
+\begin{align*}
+  \hat\beta &= \argmin_\beta \left\{ \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1 \right\} \\
+  &= \argmin_\beta \left\{ \|y - X\beta\|_1 + \lambda n \|\beta\|_1 \right\} \\
+  &= \argmin_\beta \|\tilde y - \tilde X_\lambda \beta\|_1
+\end{align*}
+where $\tilde y^T = (y^T, 0_p^T)$  and $\tilde X_\lambda^T = (X^T, \lambda n I_p)$.
+We take $\lambda n = c\sqrt{n \log (2p)}$ for some constant $c$.
+
+Using this reduction, we can carry out the estimation by
+median regression of $\tilde y$ on $\tilde X_\lambda$. In all of our experiments below, the \texttt{quantreg} package in $R$ is used to carry out quantile regression for quantile level $\tau = \frac{1}{2}$. We do not tune the constant $c$, simply taking $c=0.5$.
