@@ -5,4 +5,31 @@
 \section{Discussion}
 \label{sec:discuss}
 
+
+Compared with well-known Lasso error rate \cite{bickel2009simultaneous} $\sqrt{\frac{s\log(p)}{n}}$, our result shows an error rate $\frac{1}{1-\epsilon}\sqrt{\frac{s\log(p)}{n}}$ when the noise variables are contaminated. That is, the effective same size is reduced to $n(1-\epsilon)^2$ from $n$. A natural question is whether the additional factor $(1-\epsilon)^2$ is optimal under the setting of robust linear regression with contaminated noise.
+
+We give a partial answer to this question by studying a noiseless version of the problem. For the regression model $y_i=x_i^T\beta^*+z_i$, let us assume $z_i\sim (1-\epsilon)\delta_0 +\epsilon Q_i$ and the noise variables are independent from the design matrix. To recover $\beta^*$, we find $\wh{\beta}\in\mathcal{B}$, where
+$$\mathcal{B}=\{\beta\in\mathbb{R}^p: y_i=x_i^T\beta\text{ for all }i\in\mathcal{N}\text{ with some }\mathcal{N}\subset[n]\text{ such that }|\mathcal{N}|\geq p+1\}.$$
+
+\begin{condd}
+For any $i_1,\cdots,i_{p+1}$, the conditional distribution of $x_{i_{p+1}}|x_{i_1},\cdots,x_{i_{p}}$ is non-degenerate.
+\end{condd}
+
+\begin{thm}\label{eq:noiseless}
+Suppose Condition D holds. For any $\delta\in(0,1)$, there exists some $C>1$ only depending on $\delta$, such that whenever
+$$\frac{n(1-\epsilon)}{p}>C,$$
+we must have with probability at least $1-\delta$, the estimator $\wh{\beta}$ exists and satisfies $\wh{\beta}=\beta^*$.
+\end{thm}
+\begin{proof}
+Note that the quantity $\sum_{i=1}^n\mathbb{I}\{z_i=0\}$ is stochastically greater than or equal to $\text{Binomial}(n,1-\epsilon)$. Under the condition that $n(1-\epsilon)>Cp$ for some sufficiently large $C$, we have
+$$\mathbb{P}\left(\sum_{i=1}^n\mathbb{I}\{z_i=0\}\geq p+1\right)\geq \mathbb{P}\left(\text{Binomial}(n,1-\epsilon)\geq p+1\right)\geq 1-\delta.$$
+In other words, there are at least $p+1$ observations with zero noise, which implies $y_i=x_i^T\beta^*$ for all $i$ in some subset of cardinality of $p+1$. Thus, the set $\mathcal{B}$ is not empty and $\wh{\beta}$ is well defined.
+
+Now we show that $\mathcal{B}=\{\beta^*\}$. Suppose there exists some $\eta\in\mathcal{B}$. This means there exists some $\mathcal{N}$ with cardinality $p+1$ such that $y_i=x_i^T\eta$ for all $i\in\mathcal{N}$. Without loss of generality, let us write $\mathcal{N}=\{1,2,\cdots,p+1\}$ for simplicity of notation. Since $y_i=x_i^T\beta^*+z_i$ for all $i\in\mathcal{N}$, we have $x_i^T(\eta-\beta^*)=z_i$ for all $i\in\mathcal{N}$. These $p+1$ equations can be organized as $X(\eta-\beta^*)=z$ and $x_{p+1}^T(\eta-\beta^*)=z_{p+1}$, where $X$ is a $p\times p$ matrix with its $i$th row being $x_i^T$ and $z$ is a $p$-dimensional vector with its $i$th entry being $z_i$. Condition N implies that $X$ is invertible so that $\eta-\beta^*=X^{-1}z$, and thus $x_{p+1}^TX^{-1}z=z_{p+1}$. Conditioning on some $z\neq 0$ and some $z_{p+1}$, we must have $\mathbb{P}\left(x_{p+1}^TX^{-1}z=z_{p+1}|z,z_{p+1}\right)=0$ by Condition N. Hence, we must have $z=0$ and thus $\eta=\beta^*$, which is the desired result.
+\end{proof}
+
+To understand Theorem \ref{eq:noiseless}, we remark that when $\epsilon=0$, exactly recovery of $\beta^*$ only requires $n\geq p$ by solving a linear system. The contamination decreases the effective sample size to the order of $n(1-\epsilon)$. The result of Theorem \ref{eq:noiseless} suggests that the rate $\frac{1}{1-\epsilon}\sqrt{\frac{s\log(p)}{n}}$ achieved by median regression in the sparse and noisy setting is possibly not minimax optimal, though we believe that our analysis is sharp for median regression. We conjecture that the minimax rate should be $\sqrt{\frac{s\log(p)}{n(1-\epsilon)}}$, and it requires a completely new procedure to achieve it. 
+
+
+
 %% show sims of quantile regression?

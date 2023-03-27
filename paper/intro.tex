@@ -43,7 +43,7 @@ When the data are high dimensional, we add an $\ell_1$ penalty to the objective 
   \wh{\beta}=\argmin_{\beta\in\mathbb{R}^p}\left[\frac{1}{n}\|y-X\beta\|_1+\lambda\|\beta\|_1\right].
   \label{robustlasso}
 \end{equation}
-This optimization is equivalent to a linear program, and can be thought of as a robust lasso estimator. The main result in this paper implies that the error of this estimator scales as
+This optimization is equivalent to a linear program, and can be thought of as a robust Lasso estimator. The main result in this paper implies that the error of this estimator scales as
 \begin{equation}
   \|\hat \beta - \beta^*\|  = O_P\left(\frac{1}{1-\epsilon} \sqrt{\frac{s\log(p)}{n}}\right),
 \end{equation}
@@ -58,6 +58,6 @@ noise variance is not identifiable; we discuss this point further in Section~\re
 In addition, we show how the robust lasso can be effective when the design variables $X_j$ and the noise distributions $P_i$ have heavy tails.
 In fact, this procedure is robust to arbitrary contamination, heavy-tailed noise, and heavy-tailed design distributions simultaneously. Algorithmically, we show how the linear program \eqref{robustlasso} can be reformulated as median regression with respect to a transformed design matrix.
 
-In the following section we review the existing literature on the problem of robust regression for corrupted noise, which has seen significant attention in recent years. We also relate this problem to previous work that considers corrupted design and noise together. The main results of the paper are presented in Section~\ref{sec:main}, where we establish the scaling behavior of median regression under different assumptions. We separate the cases where the design variables are assumed to have sub-Gaussian and heavy tails. The detailed proofs of these results are collected in Section~\ref{sec:proofs}. A series of simulations that exhibit close correspondence with this theory are presented in Section~\ref{sec:experiments}. Finally, we discuss these results and their implications for applications in Section~\ref{sec:discuss}. We also mention directions for future research, including extensions to robust quantile regression.
+In the following section we review the existing literature on the problem of robust regression for corrupted noise, which has seen significant attention in recent years. We also relate this problem to previous work that considers corrupted design and noise together. The main results of the paper are presented in Section~\ref{sec:main}, where we establish the scaling behavior of median regression under different assumptions. We separate the cases where the design variables are assumed to have sub-Gaussian and heavy tails. A series of simulations that exhibit close correspondence with this theory are presented in Section~\ref{sec:experiments}. The detailed proofs of these results are collected in Section~\ref{sec:proofs}.  Finally, we discuss these results and their implications for applications in Section~\ref{sec:discuss}. We also mention directions for future research, including extensions to robust quantile regression.
 
 % WLOG assumption on median zero
