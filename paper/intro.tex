@@ -8,35 +8,6 @@ and the model parameters are estimated by minimizing the residual sum of absolut
 $Q_i$ is completely arbitrary. The parameter $\epsilon$ indicates the fraction of the observations $y_i$ that are corrupted. The quantities $\epsilon$, $P_i$ and $Q_i$ are unknown; only the points $(x_1, y_1), \ldots, (x_n, y_n)$ are observed.
 
 
-Figure 1 shows two examples that illustrate the robustness of median regression
-in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by observing that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. The focus of this paper is to understand this behavior quantitatively, to determine conditions and scaling regimes under which median regression is provably effective, in both low and high dimensions.
-
-\begin{figure*}[t]
-  \begin{tabular}{cc}
-    \hskip-3pt
-    \includegraphics[width=.48\textwidth]{figures/fig1a} &
-    \hskip-3pt
-    \includegraphics[width=.48\textwidth]{figures/fig1b}\\[-5pt]
-  \end{tabular}
-\caption{Median regression for corrupted data with $n=1{,}000$ and $\epsilon=0.75$.
-The baseline noise is heteroskedastic, with distribution $P_i = N(0, (1.5 x_i + 4)^2)$
-for data point $x_i$. Left: Corrupting distributions
-$Q_i = N(10, 1)$. Right: Corrupting distributions $Q_i = N(10 \cdot W_i, 1)$ where $W_i$ are
-independent Rademacher random variables. The solid line is the true regression
-function, and the dashed line is the fit using median regression.}
-\label{fig:exp}
-\vskip20pt
-  \begin{center}
-    \begin{tabular}{cc}
-      \hskip-10pt
-      \includegraphics[width=.48\textwidth]{figures/fig2a}&
-      \includegraphics[width=.48\textwidth]{figures/fig2b}\\[-5pt]
-    \end{tabular}
-  \end{center}
-\caption{Robust lasso for the linear model  $y=X\beta + z$ with design points $X_{ij}\sim N(0,1)$.
-Left: Dimension $p$ varying as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, with $\rho=1.2$; the sample size is fixed at $n=100$, and $s=2$. Right: Dimension fixed at $p=10$ with $s=5$ relevant variables; the sample size $n$ is varied according to
-$n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The vertical axis shows the squared error $\|\hat \beta - \beta^*\|^2$ averaged over multiple trials.}
-\end{figure*}
 
 When the data are high dimensional, we add an $\ell_1$ penalty to the objective function, resulting in the estimator
 \begin{equation}
