@@ -10,7 +10,7 @@ are varied.
 
 
 
-\subsection{Reduction of the robust lasso to median regression}
+\subsection{Heteroskedastic noise}
 
 We first observe how the robust lasso is equivalent to median regression for transformed data. The robust lasso is the  estimator
 \begin{align*}
@@ -45,6 +45,34 @@ $Q_i = N(10, 1)$. Right: Corrupting distributions $Q_i = N(10 \cdot W_i, 1)$ whe
 independent Rademacher random variables. The solid line is the true regression
 function, and the dashed line is the fit using median regression.}
 \label{fig:exp}
+\end{figure*}
+
+\subsection{Scaling behavior with $n$ and $p$}
+
+
+In the next simulation we fix the sample size at $n=100$ and the number of non-zero coefficients $\beta^*_j$ to $s=1$. We generate $n$ data points $(X_i, y_i)$ where $y_i = X_i^T \beta^* + z_i$ with $z_i$ an additive noise term distributed
+as $z_{i} \sim (1-\epsilon) N(0,1) + \epsilon\/ Q$ with $Q=N(10,1)$.
+
+We vary the model dimension $p$ as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, for $j=0,\ldots, 10$ with $\rho=1.2$. This gives the sequence of dimensions $p=2, 3, 4, 5, 7, 12, 19, 35, 73, 174, 488$. The robust lasso is then carried out
+by solving
+\begin{align*}
+  \hat\beta &= \argmin_\beta \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1\\
+  %&= \argmin_\beta \|y - X\beta\|_1 + \lambda n \|\beta\|_1 \\
+  &= \argmin_\beta \|\tilde y - \tilde X_\lambda \beta\|_1
+\end{align*}
+where $\tilde y^T = (y^T, 0_p^T)$  and $\tilde X_\lambda^T = (X^T, \lambda n I_p)$.
+We take $\lambda  = c\sqrt{{\log (2p)}/{n}}$ for the constant $c=0.5$.
+To implement this optimization, we run median regression of $\tilde y$ on $\tilde X_\lambda$, using the \texttt{quantreg} package.
+
+Our theory implies that the squared error $\|\hat \beta - \beta^*\|^2$ of the estimator will start to rapidly increase at a critical corruption level $\epsilon^*_j$ that decreases according to
+$$ \epsilon^*_{j} \approx 1- \sqrt{\rho}^j (1-\epsilon^*_0).$$
+The simulation shown in Figure~\ref{fig:exp1} (left) is consistent with this theory.
+Next, we fix the dimension at $p=10$ and the sparsity level at $s=5$ relevant variables. In this case
+the sample size varies according to $n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The results are
+are shown in Figure~\ref{fig:exp1} (right).
+
+
+\begin{figure*}[t]
 \vskip20pt
   \begin{center}
     \begin{tabular}{cc}
@@ -56,4 +84,5 @@ function, and the dashed line is the fit using median regression.}
 \caption{Robust lasso for the linear model  $y=X\beta + z$ with design points $X_{ij}\sim N(0,1)$.
 Left: Dimension $p$ varying as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, with $\rho=1.2$; the sample size is fixed at $n=100$, and $s=2$. Right: Dimension fixed at $p=10$ with $s=5$ relevant variables; the sample size $n$ is varied according to
 $n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The vertical axis shows the squared error $\|\hat \beta - \beta^*\|^2$ averaged over multiple trials.}
+\label{fig:exp1}
 \end{figure*}
