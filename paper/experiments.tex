@@ -86,3 +86,28 @@ Left: Dimension $p$ varying as $p_{j} = e^{\rho^j}$, rounded down to the nearest
 $n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The vertical axis shows the squared error $\|\hat \beta - \beta^*\|^2$ averaged over multiple trials.}
 \label{fig:exp1}
 \end{figure*}
+
+\subsection{Correlated design}
+
+\begin{figure*}[ht]
+  \vskip20pt
+    \begin{center}
+      \begin{tabular}{c}
+        \includegraphics[width=.50\textwidth]{figures/fig3}
+      \end{tabular}
+    \end{center}
+  \caption{Robust lasso for the linear model  $y=X^T\beta + z$ with 
+  fixed dimension $p = s$ and columns correlated pairwise with correlation 
+  $2\tau/(1+\tau^2)$ varying as $\frac{3}{4} - \frac{1}{2^j}$. The sample size is fixed at $n=3000$. Each point is an average over $750$ trials.}
+  \end{figure*}
+  
+Finally, we study the effect that correlation in the design has on the robustness properties
+of the estimator. Here we fix $n=3000$, $p=10$, $s=10$, and correlate pairs of columns of $X_{i}$ and $X_{i+1}$
+through a transformation 
+\begin{equation*}
+  (X_{i} \; X_{i+1}) = (Z_{i} \; Z_{i+1}) \begin{pmatrix}1 & \tau \\ \tau & 1\end{pmatrix}
+\end{equation*}
+where $Z_i$ are columns of standard normal variables; the pairwise correlations are then $2\tau/(1+\tau^2)$.
+The parameter $\tau$ varies according to $\frac{3}{4} - \frac{1}{2^j}$ 
+for $j=1,2,\ldots 6$.
+
