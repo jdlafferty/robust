@@ -8,9 +8,7 @@ median regression with corrupted data. In particular, we examine the scaling beh
 with respect the level of corruption as the sample size, dimension, and correlation between predictor variables
 are varied.
 
-
-
-\subsection{Heteroskedastic noise}
+\subsection{Implementation}
 
 We first observe how the robust lasso is equivalent to median regression for transformed data. The robust lasso is the  estimator
 \begin{align*}
@@ -28,7 +26,12 @@ We take $\lambda n = c\sqrt{n \log (2p)}$ for some constant $c$.
 Using this reduction, we can carry out the estimation by
 median regression of $\tilde y$ on $\tilde X_\lambda$. In all of our experiments below, the \texttt{quantreg} package in $R$ is used to carry out quantile regression for quantile level $\tau = \frac{1}{2}$. We do not tune the constant $c$, simply taking $c=0.5$.
 
-Figure 1 shows two examples that illustrate the robustness of median regression
+
+
+\subsection{Scaling behavior with $n$ and $p$}
+
+
+We first show two examples that illustrate the robustness of median regression
 in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by observing that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. 
 
 \begin{figure*}[t]
@@ -46,24 +49,11 @@ independent Rademacher random variables. The solid line is the true regression
 function, and the dashed line is the fit using median regression.}
 \label{fig:exp}
 \end{figure*}
-
-\subsection{Scaling behavior with $n$ and $p$}
-
-
+ 
 In the next simulation we fix the sample size at $n=100$ and the number of non-zero coefficients $\beta^*_j$ to $s=1$. We generate $n$ data points $(X_i, y_i)$ where $y_i = X_i^T \beta^* + z_i$ with $z_i$ an additive noise term distributed
 as $z_{i} \sim (1-\epsilon) N(0,1) + \epsilon\/ Q$ with $Q=N(10,1)$.
 
-We vary the model dimension $p$ as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, for $j=0,\ldots, 10$ with $\rho=1.2$. This gives the sequence of dimensions $p=2, 3, 4, 5, 7, 12, 19, 35, 73, 174, 488$. The robust lasso is then carried out
-by solving
-\begin{align*}
-  \hat\beta &= \argmin_\beta \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1\\
-  %&= \argmin_\beta \|y - X\beta\|_1 + \lambda n \|\beta\|_1 \\
-  &= \argmin_\beta \|\tilde y - \tilde X_\lambda \beta\|_1
-\end{align*}
-where $\tilde y^T = (y^T, 0_p^T)$  and $\tilde X_\lambda^T = (X^T, \lambda n I_p)$.
-We take $\lambda  = c\sqrt{{\log (2p)}/{n}}$ for the constant $c=0.5$.
-To implement this optimization, we run median regression of $\tilde y$ on $\tilde X_\lambda$, using the \texttt{quantreg} package.
-
+We vary the model dimension $p$ as $p_{j} = e^{\rho^j}$, rounded down to the nearest integer, for $j=0,\ldots, 10$ with $\rho=1.2$. This gives the sequence of dimensions $p=2, 3, 4, 5, 7, 12, 19, 35, 73, 174, 488$. 
 Our theory implies that the squared error $\|\hat \beta - \beta^*\|^2$ of the estimator will start to rapidly increase at a critical corruption level $\epsilon^*_j$ that decreases according to
 $$ \epsilon^*_{j} \approx 1- \sqrt{\rho}^j (1-\epsilon^*_0).$$
 The simulation shown in Figure~\ref{fig:exp1} (left) is consistent with this theory.
@@ -99,15 +89,18 @@ $n_j = 2^j \cdot 20$ for $j=0,\ldots, 9$. The vertical axis shows the squared er
   \caption{Robust lasso for the linear model  $y=X^T\beta + z$ with 
   fixed dimension $p = s$ and columns correlated pairwise with correlation 
   $2\tau/(1+\tau^2)$ varying as $\frac{3}{4} - \frac{1}{2^j}$. The sample size is fixed at $n=3000$. Each point is an average over $750$ trials.}
+  \label{fig:corr}
   \end{figure*}
   
 Finally, we study the effect that correlation in the design has on the robustness properties
-of the estimator. Here we fix $n=3000$, $p=10$, $s=10$, and correlate pairs of columns of $X_{i}$ and $X_{i+1}$
+of the estimator. This relates to 
+the ratio $\overline{\kappa}/\underline{\kappa}$ characterizing the condition number of the design.
+Here we fix $n=3000$, $p=10$, $s=10$, and correlate pairs of columns of $X_{i}$ and $X_{i+1}$
 through a transformation 
 \begin{equation*}
   (X_{i} \; X_{i+1}) = (Z_{i} \; Z_{i+1}) \begin{pmatrix}1 & \tau \\ \tau & 1\end{pmatrix}
 \end{equation*}
 where $Z_i$ are columns of standard normal variables; the pairwise correlations are then $2\tau/(1+\tau^2)$.
 The parameter $\tau$ varies according to $\frac{3}{4} - \frac{1}{2^j}$ 
-for $j=1,2,\ldots 6$.
+for $j=1,2,\ldots 6$. Figure~\ref{fig:corr} shows how the robustness of the estimator is reduced as the correlation increases.
 
