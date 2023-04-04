@@ -10,11 +10,7 @@ are varied.
 
 \subsection{Implementation}
 
-We first observe how the robust lasso is equivalent to median regression for transformed data. The robust lasso is the  estimator
-\begin{align*}
-  \hat\beta = \argmin_\beta \left\{ \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1\right\}.
-\end{align*}
-The estimator can be rewritten as
+We begin by observing that the robust lasso is equivalent to median regression for transformed data. Specifically, the robust lasso estimator can be rewritten as
 \begin{align*}
   \hat\beta &= \argmin_\beta \left\{ \frac{1}{n}\|y - X\beta\|_1 + \lambda \|\beta\|_1 \right\} \\
   &= \argmin_\beta \left\{ \|y - X\beta\|_1 + \lambda n \|\beta\|_1 \right\} \\
@@ -32,7 +28,9 @@ median regression of $\tilde y$ on $\tilde X_\lambda$. In all of our experiments
 
 
 We first show two examples that illustrate the robustness of median regression
-in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic, and 75\% of the response values are corrupted. Nonetheless, the estimated slope is very close to the true parameter. We can gain some intuition for this by observing that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. 
+in the case of a single predictor variable. Here the noise $P_i$ is heteroskedastic; while Theorem~\ref{thm:main} assumes the noise is independent of the design, careful inspection of the proof suggests that the assumptions might be relaxed to allow $P_i$ to be weakly dependent, while requiring that $Q_i$ is independent of the design. 
+
+In this simulation 75\% of the response values are corrupted. In spite of the large fraction of corrupted values, the estimated slope is very close to the true parameter. We can gain some intuition for this by observing that since the corrupting noise is independent of the predictor variable, the outliers are ``parallel'' to the regression function. 
 
 \begin{figure*}[t]
   \begin{tabular}{cc}
